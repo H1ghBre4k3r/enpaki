@@ -1,30 +1,30 @@
-'use strict';
+"use strict";
 
 /**
  * Returns a templated bundle header
  * @param {String} __entry_script__ The entry script
  * @return {String}
  */
-exports.BUNDLE_HEADER = (__entry_script__) => `/** start of bundle */
+exports.BUNDLE_HEADER = __entry_script__ => `/** start of bundle */
 ;(function () {
 var path = require('path');
 
 var _enpakiModules = {};
 var _enpakiCache = {};
 
-var BUNDLE_ROOT = '/';
+var BUNDLE_ROOT = path.sep;
 `;
 
 /**
  * Returns an enpaki bundled module
  * @param {String} __file__ The relative path to the module
  */
-exports.FILE_HEADER = (__file__) => `
+exports.FILE_HEADER = __file__ => `
 /** module: ${__file__} */
 _enpakiModules['${__file__}'] = function (exports, require, module, __filename, __dirname) {
 `;
 
-exports.FILE_FOOTER = (__file__) => `
+exports.FILE_FOOTER = __file__ => `
 return module.exports;
 }; /** end module: ${__file__} */
 `;
@@ -33,7 +33,7 @@ return module.exports;
  * Closes the bundle
  * @param {String} __entry_script__ The entry script
  */
-exports.BUNDLE_FOOTER = (__entry_script__) => `
+exports.BUNDLE_FOOTER = __entry_script__ => `
 
 function isFile(filename) {
   return !!_enpakiModules[filename];
@@ -167,7 +167,7 @@ function _fix_filename(filename) {
 }
 
 function _fix_dirname(dirname) {
-  return path.resolve(__dirname, dirname.slice(1), '/../');
+  return path.resolve(__dirname, dirname.slice(1), \`\${path.sep}..\${path.sep}\`);
 }
 
 if (typeof module === 'object') {
